@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# more details: https://www.codingforentrepreneurs.com/blog/create-icns-icons-for-macos-apps/
+# cd /path/to/destination/
+
+# name of icon to be converted
+file=$1
+if  [[ $file == "" ]]
+then
+    read -p "Enter or drag .png file: " f
+
+    f1=${f:2}       # strip off first character
+    file="/${f1%?}" # strip off last character
+fi
+input_filepath=$file # INPUT FILE PATH TO BE PARSED
+
+current="`pwd`"
+abspath="`dirname "$file"`"
+inputname="`basename "$file"`"
+#output_iconset_name="CFE.iconset"
+outputname="${inputname// /_}" # substitute spaces for underscores
+outputname="${outputname/"1024x1024"/}" # remove 1024x1024
+outputname="${outputname/.png/.iconset}" # replace .png with .iconset
+outputname="${outputname/"_.iconset"/.iconset}" # remove trailing _
+output_iconset_name="$abspath/$outputname"
+# echo $abspath
+echo $input_filepath
+echo $output_iconset_name
+echo -e "\n"
+mkdir "${output_iconset_name}"
+
+sips -z 16 16     "${input_filepath}" --out "${output_iconset_name}/icon_16x16.png"
+sips -z 32 32     "${input_filepath}" --out "${output_iconset_name}/icon_16x16@2x.png"
+sips -z 32 32     "${input_filepath}" --out "${output_iconset_name}/icon_32x32.png"
+sips -z 64 64     "${input_filepath}" --out "${output_iconset_name}/icon_32x32@2x.png"
+sips -z 128 128   "${input_filepath}" --out "${output_iconset_name}/icon_128x128.png"
+sips -z 256 256   "${input_filepath}" --out "${output_iconset_name}/icon_128x128@2x.png"
+sips -z 256 256   "${input_filepath}" --out "${output_iconset_name}/icon_256x256.png"
+sips -z 512 512   "${input_filepath}" --out "${output_iconset_name}/icon_256x256@2x.png"
+sips -z 512 512   "${input_filepath}" --out "${output_iconset_name}/icon_512x512.png"
+
+iconutil -c icns $output_iconset_name
+rm -R $output_iconset_name
+
