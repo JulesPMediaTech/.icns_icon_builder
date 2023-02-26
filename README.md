@@ -10,4 +10,4 @@ Uses absolute paths. Be careful of paths that contain not stand characters such 
 run the shell then drag and drop file into the terminal
 the shell spits out a fully functioning .icns icon file ready for distribution / compile etc
 
-
+Many thanks to www.codingforentrepreneurs.com for their tutorial and consolidated lines
